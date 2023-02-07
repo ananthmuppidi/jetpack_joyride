@@ -34,6 +34,7 @@ public:
     void Draw(SpriteRenderer &renderer, float worldDistance);
     // check if the level is completed (all non-solid tiles are destroyed)
     bool IsCompleted();
+
 private:
     // initialize level from tile data
     void init(std::vector<std::vector<float>> tileData, std::vector<std::vector<float>> coinData, unsigned int levelWidth, unsigned int levelHeight);

@@ -76,11 +76,12 @@ void GameLevel::Draw(SpriteRenderer &renderer, float worldDistance) {
 }
 
 bool GameLevel::IsCompleted() {
-    for (GameObject &tile: this->Zappers)
-        if (!tile.IsSolid && !tile.Destroyed)
+    for(GameObject &zapper : this->Zappers){
+        if(zapper.Position.x > 0){
             return false;
+        }
+    }
     return true;
-
 }
 
 void GameLevel::init(std::vector <std::vector<float>> zapperData, std::vector <std::vector<float>> coinData,

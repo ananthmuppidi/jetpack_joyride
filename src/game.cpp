@@ -60,7 +60,7 @@ void Game::Init()
     GameLevel one; one.Load("../levels/one.lvl", "../levels/coinsOne.lvl", this->Width, this->Height / 2);
     GameLevel two; two.Load("../levels/two.lvl", "../levels/coinsTwo.lvl", this->Width, this->Height / 2);
     GameLevel three; three.Load("../levels/three.lvl", "../levels/coinsThree.lvl", this->Width, this->Height / 2);
-    this->Levels.push_back(one);
+    this->Levels.push_back(three);
     this->Levels.push_back(two);
     this->Levels.push_back(three);
     this->Level = 0;
@@ -122,3 +122,6 @@ void Game::Render()
         Player->Draw(*Renderer);
     }
 }
+
+
+

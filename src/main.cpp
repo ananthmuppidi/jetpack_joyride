@@ -31,7 +31,7 @@ const unsigned int SCREEN_HEIGHT = 600;
 Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 void makeLevels(){
-    std::fstream lvl_one, lvl_two, lvl_three coinsOne, coinsTwo, coinsThree;
+    std::fstream lvl_one, lvl_two, lvl_three, coinsOne, coinsTwo, coinsThree;
 
     lvl_one.open("../levels/one.lvl", std::ios::out);
     lvl_two.open("../levels/two.lvl", std::ios::out);
@@ -158,7 +158,7 @@ void makeLevels(){
         lvl_three << " ";
 
 
-        if(rand_rotation < 0.25f){
+        if(rand_rotation < 0.35f){
             lvl_three << "1";
         } else {
             lvl_three << "0";
@@ -222,9 +222,57 @@ void makeLevels(){
 
         lvl_three << rand_size;
         lvl_three << "\n";
+    }
+    if(!coinsOne) {
+        std::cerr << "err: coins_1_file" << std::endl;
+        exit(1);
+    }
 
+    if(!coinsTwo) {
+        std::cerr << "err: coins_2_file" << std::endl;
+        exit(1);
+    }
+
+    if(!coinsThree) {
+        std::cerr << "err: coins_3_file" << std::endl;
+        exit(1);
+    }
+
+    for(int iter_coin_1 = 600; iter_coin_1 <= 5600; iter_coin_1 += 400){
+
+        coinsOne << iter_coin_1;
+        coinsOne << " ";
+
+        float rand_y_pos = ((float)std::rand() * 2 / RAND_MAX);
+        coinsOne << rand_y_pos;
+
+        coinsOne << "\n";
 
     }
+
+    for(int iter_coin_2 = 650; iter_coin_2 <= 5600; iter_coin_2 += 200){
+
+        coinsTwo << iter_coin_2;
+        coinsTwo << " ";
+
+        float rand_y_pos = ((float)std::rand() * 2 / RAND_MAX);
+        coinsTwo<< rand_y_pos;
+
+        coinsTwo << "\n";
+    }
+
+    for(int iter_coin_3 = 650; iter_coin_3 <= 5600; iter_coin_3 += 200){
+
+        coinsThree << iter_coin_3;
+        coinsThree << " ";
+
+        float rand_y_pos = ((float)std::rand() * 2 / RAND_MAX);
+        coinsThree << rand_y_pos;
+
+        coinsThree << "\n";
+    }
+
+
 
 }
 
