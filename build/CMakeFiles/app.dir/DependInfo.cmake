@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/src/resource_manager.cpp" "CMakeFiles/app.dir/src/resource_manager.cpp.o" "gcc" "CMakeFiles/app.dir/src/resource_manager.cpp.o.d"
   "/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/src/shader.cpp" "CMakeFiles/app.dir/src/shader.cpp.o" "gcc" "CMakeFiles/app.dir/src/shader.cpp.o.d"
   "/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/src/sprite_renderer.cpp" "CMakeFiles/app.dir/src/sprite_renderer.cpp.o" "gcc" "CMakeFiles/app.dir/src/sprite_renderer.cpp.o.d"
+  "/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/src/text_renderer.cpp" "CMakeFiles/app.dir/src/text_renderer.cpp.o" "gcc" "CMakeFiles/app.dir/src/text_renderer.cpp.o.d"
   "/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/src/texture.cpp" "CMakeFiles/app.dir/src/texture.cpp.o" "gcc" "CMakeFiles/app.dir/src/texture.cpp.o.d"
   )
 

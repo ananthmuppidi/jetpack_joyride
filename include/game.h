@@ -18,7 +18,8 @@
 enum GameState {
     GAME_ACTIVE,
     GAME_MENU,
-    GAME_WIN
+    GAME_WIN,
+    GAME_LOSE
 };
 
 // Initial size of the player paddle
@@ -48,7 +49,9 @@ public:
     void ProcessInput(float dt);
     void Update(float dt);
     void Render();
-
+    bool CheckCollision(GameObject &one, GameObject &two);
+    bool Zap();
+    void CollectCoins();
 };
 
 #endif

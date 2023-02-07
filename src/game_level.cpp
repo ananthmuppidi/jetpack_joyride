@@ -61,7 +61,7 @@ void GameLevel::Load(const char *file, const char *coinFile, unsigned int levelW
 
 }
 
-void GameLevel::Draw(SpriteRenderer &renderer, float worldDistance) {
+void GameLevel::Draw(SpriteRenderer &renderer) {
     for (GameObject &zapper: this->Zappers) {
         zapper.Position.x -= 5;
         if (zapper.DoRotate) {
@@ -71,7 +71,9 @@ void GameLevel::Draw(SpriteRenderer &renderer, float worldDistance) {
     }
     for (GameObject &coin: this->Coins) {
         coin.Position.x -= 5;
-        coin.Draw(renderer);
+        if(!coin.Destroyed) {
+            coin.Draw(renderer);
+        }
     }
 }
 
@@ -109,11 +111,9 @@ void GameLevel::init(std::vector <std::vector<float>> zapperData, std::vector <s
 
         this->Coins.push_back(
                 GameObject(glm::vec2(xPos, (levelHeight * yPos - 20)), glm::vec2(20, 20),
-                           ResourceManager::GetTexture("awesomeface"), glm::vec3(1.0f, 1.0f, 1.0f), 0, true,
+                           ResourceManager::GetTexture("coin"), glm::vec3(0.0f, 0.0f, 0.0f), 0, true,
                            false, 0.0f));
     }
 
 }
-
-
 

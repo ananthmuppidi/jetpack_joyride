@@ -31,9 +31,10 @@ public:
     // loads level from file
     void Load(const char *file, const char *coinFile, unsigned int levelWidth, unsigned int levelHeight);
     // render level
-    void Draw(SpriteRenderer &renderer, float worldDistance);
+    void Draw(SpriteRenderer &renderer);
     // check if the level is completed (all non-solid tiles are destroyed)
     bool IsCompleted();
+    bool CheckCollision(GameObject &one, GameObject &two);
 
 private:
     // initialize level from tile data
