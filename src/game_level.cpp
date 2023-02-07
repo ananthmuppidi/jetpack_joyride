@@ -63,11 +63,12 @@ void GameLevel::Load(const char *file, const char *coinFile, unsigned int levelW
 
 void GameLevel::Draw(SpriteRenderer &renderer) {
     for (GameObject &zapper: this->Zappers) {
-        zapper.Position.x -= 5;
+
         if (zapper.DoRotate) {
             zapper.Rotation += 0.5f;
         }
         zapper.Draw(renderer);
+        zapper.Position.x -= 5;
     }
     for (GameObject &coin: this->Coins) {
         coin.Position.x -= 5;
@@ -89,7 +90,7 @@ bool GameLevel::IsCompleted() {
 void GameLevel::init(std::vector <std::vector<float>> zapperData, std::vector <std::vector<float>> coinData,
                      unsigned int levelWidth, unsigned int levelHeight) {
 
-    for (int i = 0; i < zapperData.size(); i++) {
+    for (int i = 1; i < zapperData.size(); i++) {
 
         float xPos = zapperData[i][0];
         float yPos = zapperData[i][1];

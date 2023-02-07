@@ -344,7 +344,60 @@ int main(int argc, char *argv[])
         Breakout.Render();
 
         glfwSwapBuffers(window);
+
     }
+
+    while (!glfwWindowShouldClose(window))
+    {
+        // calculate delta time
+        // --------------------
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+        glfwPollEvents();
+
+        // manage user input
+        // -----------------
+        Breakout.ProcessInput(deltaTime);
+
+        // update game state
+        // -----------------
+        Breakout.Update(deltaTime);
+
+        // render
+        // ------
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        Breakout.Render();
+
+        glfwSwapBuffers(window);
+    }
+    while (!glfwWindowShouldClose(window))
+    {
+        // calculate delta time
+        // --------------------
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+        glfwPollEvents();
+
+        // manage user input
+        // -----------------
+        Breakout.ProcessInput(deltaTime);
+
+        // update game state
+        // -----------------
+        Breakout.Update(deltaTime);
+
+        // render
+        // ------
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        Breakout.Render();
+
+        glfwSwapBuffers(window);
+    }
+
 
     // delete all resources as loaded using the resource manager
     // ---------------------------------------------------------

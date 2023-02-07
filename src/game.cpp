@@ -30,7 +30,7 @@ unsigned int coinCollected = 0;
 
 
 Game::Game(unsigned int width, unsigned int height)
-        : State(GAME_ACTIVE), Keys(), Width(width), Height(height) {
+        : State(GAME_MENU), Keys(), Width(width), Height(height) {
 
 }
 
@@ -72,7 +72,7 @@ void Game::Init() {
     two.Load("../levels/two.lvl", "../levels/coinsTwo.lvl", this->Width, this->Height / 2);
     GameLevel three;
     three.Load("../levels/three.lvl", "../levels/coinsThree.lvl", this->Width, this->Height / 2);
-    this->Levels.push_back(three);
+    this->Levels.push_back(one);
     this->Levels.push_back(two);
     this->Levels.push_back(three);
     this->Level = 0;
@@ -87,10 +87,27 @@ void Game::Update(float dt) {
     if(this->Zap()){
         this->State = GAME_LOSE;
     }
+    if(this->Levels[Level].IsCompleted()){
+        this->Level += 1;
+        progress = 0.0f;
+        if(this->Level > 2){
+            --this->Level;
+            this->State = GAME_WIN;
+        }
+    }
 
 }
 
 void Game::ProcessInput(float dt) {
+    if(this->State == GAME_MENU){
+        if (this->Keys[GLFW_KEY_ENTER])
+        this->State = GAME_INTRO;
+    }
+    if(this->State == GAME_INTRO){
+        if (this->Keys[GLFW_KEY_SPACE])
+            this->State = GAME_ACTIVE;
+    }
+
     if (this->State == GAME_ACTIVE) {
         float velocity = PLAYER_VELOCITY * dt;
         float velocityDown = PLAYER_VELOCITY_DOWN * dt;
@@ -117,7 +134,21 @@ void Game::ProcessInput(float dt) {
 }
 
 void Game::Render() {
-    if (this->State == GAME_ACTIVE) {
+
+    if(this->State == GAME_MENU) {
+        Texture2D tempTexture = ResourceManager::GetTexture("background");
+        Renderer->DrawSprite(tempTexture, glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
+        Text->RenderText("jetpack_joyride: Press Enter!", 170.0f, 300.0f, 1.0f);
+    }
+
+    if(this->State == GAME_INTRO){
+        Texture2D tempTexture = ResourceManager::GetTexture("background");
+        Renderer->DrawSprite(tempTexture, glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
+        Player->Draw(*GlowRenderer);
+        Text->RenderText("press space to jump!", 250.0f, 300.0f, 1.0f);
+    }
+
+    if (this->State == GAME_ACTIVE){
         // draw background
         Texture2D tempTexture = ResourceManager::GetTexture("background");
         Renderer->DrawSprite(tempTexture, glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
@@ -127,12 +158,23 @@ void Game::Render() {
         Player->Draw(*GlowRenderer);
 
         std::stringstream ss; ss << coinCollected;
-        std::stringstream ss2; ss2 << this->Level;
+        std::stringstream ss2; ss2 << this->Level + 1;
         std::stringstream ss3; ss3 << std::setprecision(4) <<  progress * 100 / 5600.0f;
-        Text->RenderText("Coins:" + ss.str() + " | Level: " + ss2.str() + " | Progress: " + ss3.str() , 440.0f, 580.0f, 0.65f);
+        Text->RenderText("Coins:" + ss.str() + " | Level: " + ss2.str() + " | Progress: " + ss3.str() , 420.0f, 580.0f, 0.65f);
+    }
 
+    if(this->State == GAME_LOSE) {
+        Texture2D tempTexture = ResourceManager::GetTexture("background");
+        Renderer->DrawSprite(tempTexture, glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
+        std::stringstream ss; ss << coinCollected;
+        Text->RenderText("You Lost! Coin(s): " +  ss.str() + " (press esc)", 100.0f, 250.0f, 1.3f);
+    }
 
-
+    if(this->State == GAME_WIN) {
+        Texture2D tempTexture = ResourceManager::GetTexture("background");
+        Renderer->DrawSprite(tempTexture, glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
+        std::stringstream ss; ss << coinCollected;
+        Text->RenderText("You Won! Coins: " +  ss.str() + " (press esc)", 250.0f, 250.0f, 1.3f);
     }
 }
 
@@ -165,7 +207,6 @@ bool Game::Zap() {
     for (GameObject &zapper: this->Levels[this->Level].Zappers) {
         if (!zapper.Destroyed) {
             if (CheckCollision(*Player, zapper)) {
-
                 return true;
             }
         }
