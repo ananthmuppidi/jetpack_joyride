@@ -11,9 +11,18 @@
 #include "../include/sprite_renderer.h"
 #include "../include/game_object.h"
 
+#include <iostream>
+
 // Game-related State data
 SpriteRenderer  *Renderer;
 GameObject      *Player;
+
+float dotPos = 0.0f;
+float accTimeUp = 0.0f;
+float accTimeDown = 0.0f;
+float worldDistance;
+float totalWorldDistance = 800;
+
 
 Game::Game(unsigned int width, unsigned int height)
         : State(GAME_ACTIVE), Keys(), Width(width), Height(height)
@@ -26,6 +35,7 @@ Game::~Game()
     delete Renderer;
     delete Player;
 }
+
 
 void Game::Init()
 {
@@ -40,11 +50,13 @@ void Game::Init()
     Shader tempShader = ResourceManager::GetShader("sprite");
     Renderer = new SpriteRenderer(tempShader);
     // load textures
-    ResourceManager::LoadTexture("../textures/background.jpeg", false, "background");
+    ResourceManager::LoadTexture("../textures/background.png", false, "background");
     ResourceManager::LoadTexture("../textures/awesomeface.png", true, "face");
     ResourceManager::LoadTexture("../textures/block.png", false, "block");
     ResourceManager::LoadTexture("../textures/block_solid.png", false, "block_solid");
     ResourceManager::LoadTexture("../textures/paddle.png", true, "paddle");
+    ResourceManager::LoadTexture("../textures/dots.png", true, "dots");
+    ResourceManager::LoadTexture("../textures/zapper.png", true, "zapper");
     // load levels
     GameLevel one; one.Load("../levels/one.lvl", this->Width, this->Height / 2);
     GameLevel two; two.Load("../levels/two.lvl", this->Width, this->Height / 2);
@@ -56,12 +68,17 @@ void Game::Init()
     this->Levels.push_back(four);
     this->Level = 0;
     // configure game objects
-    glm::vec2 playerPos = glm::vec2(this->Width / 2.0f - PLAYER_SIZE.x / 2.0f, this->Height - PLAYER_SIZE.y);
+    glm::vec2 playerPos = glm::vec2(this->Width / 10.0f - PLAYER_SIZE.x / 2.0f, this->Height - PLAYER_SIZE.y);
     Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"));
 }
 
 void Game::Update(float dt)
 {
+
+    totalWorldDistance -= 1;
+    std::cout << totalWorldDistance << std::endl;
+    dotPos -= 4;
+    if(dotPos < -20) dotPos = -1;
 
 }
 
@@ -70,16 +87,26 @@ void Game::ProcessInput(float dt)
     if (this->State == GAME_ACTIVE)
     {
         float velocity = PLAYER_VELOCITY * dt;
-        // move playerboard
-        if (this->Keys[GLFW_KEY_A])
-        {
-            if (Player->Position.x >= 0.0f)
-                Player->Position.x -= velocity;
+        float velocityDown = PLAYER_VELOCITY_DOWN * dt;
+        if(Player->Position.y > this->Height - Player->Size.y){
+            Player->Position.y = this->Height - Player->Size.y;
+            std::cout << Player->Position.y << std::endl;
+            return;
         }
-        if (this->Keys[GLFW_KEY_D])
+        // move playerboard
+        if (this->Keys[GLFW_KEY_SPACE])
         {
-            if (Player->Position.x <= this->Width - Player->Size.x)
-                Player->Position.x += velocity;
+            accTimeUp += 0.5;
+            accTimeDown = 0.0f;
+            if (Player->Position.y >= 0.0f)
+                Player->Position.y -= (velocity + accTimeUp);
+        }
+        else {
+            accTimeUp = 0.0f;
+            accTimeDown += 0.8f;
+            if(Player->Position.y < this->Height - Player->Size.y){
+                Player->Position.y += (velocityDown + accTimeDown);
+            }
         }
     }
 }
@@ -91,9 +118,12 @@ void Game::Render()
         // draw background
         Texture2D tempTexture =  ResourceManager::GetTexture("background");
         Renderer->DrawSprite(tempTexture, glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
+
+//        Texture2D tempTextureDots =  ResourceManager::GetTexture("dots");
+//        Renderer->DrawSprite(tempTextureDots, glm::vec2(dotPos, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
+
         // draw level
         this->Levels[this->Level].Draw(*Renderer);
-        // draw player
         Player->Draw(*Renderer);
     }
 }
