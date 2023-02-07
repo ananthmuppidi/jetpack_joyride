@@ -21,7 +21,6 @@ float dotPos = 0.0f;
 float accTimeUp = 0.0f;
 float accTimeDown = 0.0f;
 float worldDistance;
-float totalWorldDistance = 800;
 
 
 Game::Game(unsigned int width, unsigned int height)
@@ -75,8 +74,7 @@ void Game::Init()
 void Game::Update(float dt)
 {
 
-    totalWorldDistance -= 1;
-    std::cout << totalWorldDistance << std::endl;
+    worldDistance += 0.1;
     dotPos -= 4;
     if(dotPos < -20) dotPos = -1;
 
@@ -123,7 +121,7 @@ void Game::Render()
 //        Renderer->DrawSprite(tempTextureDots, glm::vec2(dotPos, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
 
         // draw level
-        this->Levels[this->Level].Draw(*Renderer);
+        this->Levels[this->Level].Draw(*Renderer, worldDistance);
         Player->Draw(*Renderer);
     }
 }

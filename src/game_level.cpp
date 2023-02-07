@@ -12,6 +12,10 @@
 #include <sstream>
 #include <iostream>
 
+#include <ctime>
+#include <cmath>
+
+
 
 void GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int levelHeight)
 {
@@ -38,11 +42,17 @@ void GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int lev
     }
 }
 
-void GameLevel::Draw(SpriteRenderer &renderer)
+void GameLevel::Draw(SpriteRenderer &renderer, float worldDistance)
 {
-    for (GameObject &tile : this->Bricks)
-        if (!tile.Destroyed)
-            tile.Draw(renderer);
+    float newWorldDistance = worldDistance;
+    for (GameObject &zapper : this->Bricks) {
+        zapper.Position.x -= 5;
+        zapper.Draw(renderer);
+        zapper.Rotation += 0.5f;
+    }
+
+
+
 
 }
 
@@ -91,11 +101,14 @@ void GameLevel::init(std::vector<std::vector<unsigned int>> tileData, unsigned i
 //                glm::vec2 pos(unit_width * x, unit_height * y);
 //                glm::vec2 size(unit_width, unit_height);
 ////                this->Bricks.push_back(GameObject(pos, size, ResourceManager::GetTexture("zapper"), color));
+
 //            }
-            for(int i = 0; i < 5; i++) {
+
+            for(int i = 0; i < 100; i++) {
+                float ySize = 100.0f;
                 this->Bricks.push_back(
-                        GameObject(glm::vec2((levelWidth / 10) * i, (levelHeight / 10) * i), glm::vec2(100, 100),
-                                   ResourceManager::GetTexture("zapper"), glm::vec3(1.0f, 1.0f, 1.0f), -47));
+                        GameObject(glm::vec2((levelWidth / 10) * i, (levelHeight * 2 - ySize)), glm::vec2(20, ySize),
+                                   ResourceManager::GetTexture("zapper"), glm::vec3(1.0f, 1.0f, 1.0f), 0));
             }
         //}
     //}

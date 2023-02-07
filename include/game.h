@@ -37,7 +37,6 @@ public:
     GameState               State;
     bool                    Keys[1024];
     unsigned int            Width, Height;
-    unsigned int            Size;
     std::vector<GameLevel>  Levels;
     unsigned int            Level;
     // constructor/destructor
