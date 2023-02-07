@@ -2,9 +2,7 @@
 
 ## Contents
 - glfw, glad and glm built from source in `libraries`
-
 - Standard shader class from learnopengl.com and stb_image.h in `include`
-
 - CMake file to compile project (includes glfw, glad, glm and freetype)
 
 

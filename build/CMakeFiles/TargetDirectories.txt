@@ -1,9 +1,0 @@
-/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/build/CMakeFiles/app.dir
-/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/build/CMakeFiles/glad.dir
-/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/build/CMakeFiles/edit_cache.dir
-/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/build/CMakeFiles/rebuild_cache.dir
-/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/build/libraries/glfw/CMakeFiles/edit_cache.dir
-/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/build/libraries/glfw/CMakeFiles/rebuild_cache.dir
-/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/build/libraries/glfw/src/CMakeFiles/glfw.dir
-/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/build/libraries/glfw/src/CMakeFiles/edit_cache.dir
-/Users/ananthmuppidi/IIIT H/Semester 2/DSA/jetpack_joyride/build/libraries/glfw/src/CMakeFiles/rebuild_cache.dir

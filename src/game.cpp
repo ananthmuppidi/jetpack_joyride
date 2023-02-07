@@ -174,7 +174,7 @@ void Game::Render() {
         Texture2D tempTexture = ResourceManager::GetTexture("background");
         Renderer->DrawSprite(tempTexture, glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
         std::stringstream ss; ss << coinCollected;
-        Text->RenderText("You Won! Coins: " +  ss.str() + " (press esc)", 250.0f, 250.0f, 1.3f);
+        Text->RenderText("You Won! Coins: " +  ss.str() + " (press esc)", 100.0f, 250.0f, 1.3f);
     }
 }
 
