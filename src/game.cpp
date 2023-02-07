@@ -57,14 +57,12 @@ void Game::Init()
     ResourceManager::LoadTexture("../textures/dots.png", true, "dots");
     ResourceManager::LoadTexture("../textures/zapper.png", true, "zapper");
     // load levels
-    GameLevel one; one.Load("../levels/one.lvl", this->Width, this->Height / 2);
-    GameLevel two; two.Load("../levels/two.lvl", this->Width, this->Height / 2);
-    GameLevel three; three.Load("../levels/three.lvl", this->Width, this->Height / 2);
-    GameLevel four; four.Load("../levels/four.lvl", this->Width, this->Height / 2);
+    GameLevel one; one.Load("../levels/one.lvl", "../levels/coinsOne.lvl", this->Width, this->Height / 2);
+    GameLevel two; two.Load("../levels/two.lvl", "../levels/coinsTwo.lvl", this->Width, this->Height / 2);
+    GameLevel three; three.Load("../levels/three.lvl", "../levels/coinsThree.lvl", this->Width, this->Height / 2);
     this->Levels.push_back(one);
     this->Levels.push_back(two);
     this->Levels.push_back(three);
-    this->Levels.push_back(four);
     this->Level = 0;
     // configure game objects
     glm::vec2 playerPos = glm::vec2(this->Width / 10.0f - PLAYER_SIZE.x / 2.0f, this->Height - PLAYER_SIZE.y);
@@ -88,7 +86,6 @@ void Game::ProcessInput(float dt)
         float velocityDown = PLAYER_VELOCITY_DOWN * dt;
         if(Player->Position.y > this->Height - Player->Size.y){
             Player->Position.y = this->Height - Player->Size.y;
-            std::cout << Player->Position.y << std::endl;
             return;
         }
         // move playerboard

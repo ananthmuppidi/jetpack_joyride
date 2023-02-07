@@ -17,6 +17,7 @@
 #include "../include/resource_manager.h"
 
 #include <iostream>
+#include <fstream>
 
 // GLFW function declarations
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -29,8 +30,208 @@ const unsigned int SCREEN_HEIGHT = 600;
 
 Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+void makeLevels(){
+    std::fstream lvl_one, lvl_two, lvl_three coinsOne, coinsTwo, coinsThree;
+
+    lvl_one.open("../levels/one.lvl", std::ios::out);
+    lvl_two.open("../levels/two.lvl", std::ios::out);
+    lvl_three.open("../levels/three.lvl", std::ios::out);
+
+    coinsOne.open("../levels/coinsOne.lvl", std::ios::out);
+    coinsTwo.open("../levels/coinsTwo.lvl", std::ios::out);
+    coinsThree.open("../levels/coinsThree.lvl", std::ios::out);
+
+
+    if(!lvl_one) {
+        std::cerr << "err: level_2_file" << std::endl;
+        exit(1);
+    }
+
+    for(int iter1 = 400; iter1 <= 5600; iter1 += 400){
+
+        lvl_one << iter1;
+        lvl_one << " ";
+
+        float rand_y_pos = ((float)std::rand() * 2 / RAND_MAX);
+        lvl_one << rand_y_pos;
+        lvl_one << " ";
+        float rand_rotation = ((float)std::rand() * 1 / RAND_MAX);
+
+        lvl_one << "0";
+        lvl_one << " ";
+
+
+        if(rand_rotation < 0.25f){
+            lvl_one << "1";
+        } else {
+            lvl_one << "0";
+        }
+        lvl_one << " ";
+
+        float rand_size = ((float)std::rand() * 150 / RAND_MAX);
+        rand_size += 100;
+
+        lvl_one << rand_size;
+        lvl_one << "\n";
+
+    }
+
+    if(!lvl_two){
+        std::cerr << "err: level_2_file" << std::endl;
+        exit(1);
+    }
+
+    for(int iter1 = 400; iter1 <= 5600; iter1 += 400){
+
+        lvl_two << iter1;
+        lvl_two << " ";
+
+        float rand_y_pos = ((float)std::rand() * 2 / RAND_MAX);
+        lvl_two << rand_y_pos;
+        lvl_two << " ";
+        float rand_rotation = ((float)std::rand() * 1 / RAND_MAX);
+
+        lvl_two << "0";
+        lvl_two << " ";
+
+
+        if(rand_rotation < 0.25f){
+            lvl_two << "1";
+        } else {
+            lvl_two << "0";
+        }
+        lvl_two << " ";
+
+        float rand_size = ((float)std::rand() * 150 / RAND_MAX);
+        rand_size += 100;
+
+        lvl_two << rand_size;
+        lvl_two << "\n";
+    }
+
+    for(int iter1 = 600; iter1 <= 5600; iter1 += 800){
+
+        lvl_two << iter1;
+        lvl_two << " ";
+
+        float rand_y_pos = ((float)std::rand()  / 2 * RAND_MAX) + 1.5;
+        lvl_two << rand_y_pos;
+        lvl_two << " ";
+        float rand_rotation = ((float)std::rand() * 1 / RAND_MAX);
+
+        lvl_two << "0";
+        lvl_two << " ";
+
+
+        if(rand_rotation < 0.25f){
+            lvl_two << "1";
+        } else {
+            lvl_two << "0";
+        }
+        lvl_two << " ";
+
+        float rand_size = ((float)std::rand() * 150 / RAND_MAX);
+        rand_size += 20;
+
+        lvl_two << rand_size;
+        lvl_two << "\n";
+    }
+
+
+
+    if(!lvl_three) {
+        std::cerr << "err: level_3_file" << std::endl;
+        exit(1);
+    }
+
+    for(int iter1 = 400; iter1 <= 5600; iter1 += 400){
+
+        lvl_three << iter1;
+        lvl_three << " ";
+
+        float rand_y_pos = ((float)std::rand() * 2 / RAND_MAX);
+        lvl_three << rand_y_pos;
+        lvl_three << " ";
+        float rand_rotation = ((float)std::rand() * 1 / RAND_MAX);
+
+        lvl_three << "0";
+        lvl_three << " ";
+
+
+        if(rand_rotation < 0.25f){
+            lvl_three << "1";
+        } else {
+            lvl_three << "0";
+        }
+        lvl_three << " ";
+
+        float rand_size = ((float)std::rand() * 150 / RAND_MAX);
+        rand_size += 100;
+
+        lvl_three << rand_size;
+        lvl_three << "\n";
+
+    }
+
+    for(int iter2 = 600; iter2 <= 5600; iter2 += 400){
+
+        lvl_three << iter2;
+        lvl_three << " ";
+
+        float rand_y_pos = 1.8;
+        lvl_three << rand_y_pos;
+        lvl_three << " ";
+        float rand_rotation = ((float)std::rand() * 1 / RAND_MAX);
+
+        lvl_three << "0";
+        lvl_three << " ";
+
+
+        if(rand_rotation < 0.25f){
+            lvl_three << "1";
+        } else {
+            lvl_three << "0";
+        }
+        lvl_three << " ";
+
+        float rand_size = ((float)std::rand() * 150 / RAND_MAX);
+        rand_size += 20;
+
+        lvl_three << rand_size;
+        lvl_three << "\n";
+
+
+    }
+
+    for(int i = 400; i < 5600; i+= 100){
+        lvl_three << i;
+        lvl_three << " ";
+
+        float rand_y_pos = 0.1;
+        lvl_three << rand_y_pos;
+        lvl_three << " ";
+
+        lvl_three << "0";
+        lvl_three << " ";
+
+        lvl_three << "0";
+        lvl_three << " ";
+
+        float rand_size = 40;
+        rand_size += 20;
+
+        lvl_three << rand_size;
+        lvl_three << "\n";
+
+
+    }
+
+}
+
+
 int main(int argc, char *argv[])
 {
+    makeLevels();
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -68,6 +269,8 @@ int main(int argc, char *argv[])
     // -------------------
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
+
+    makeLevels();
 
     while (!glfwWindowShouldClose(window))
     {
@@ -123,3 +326,4 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
+

@@ -11,108 +11,108 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <cstdlib>
 
 #include <ctime>
 #include <cmath>
 
+unsigned int Height, Width;
 
-
-void GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int levelHeight)
-{
+void GameLevel::Load(const char *file, const char *coinFile, unsigned int levelWidth, unsigned int levelHeight) {
     // clear old data
-    this->Bricks.clear();
+    Height = levelHeight;
+    Width = levelWidth;
+    this->Zappers.clear();
     // load from file
-    unsigned int tileCode;
+    float zapperCode;
+    float coinCode;
+
     GameLevel level;
+
     std::string line;
     std::ifstream fstream(file);
-    std::vector<std::vector<unsigned int>> tileData;
-    if (fstream)
-    {
+    std::vector <std::vector<float>> zapperData;
+    if (fstream) {
         while (std::getline(fstream, line)) // read each line from level file
         {
             std::istringstream sstream(line);
-            std::vector<unsigned int> row;
-            while (sstream >> tileCode) // read each word separated by spaces
-                row.push_back(tileCode);
-            tileData.push_back(row);
+            std::vector<float> row;
+            while (sstream >> zapperCode) // read each word separated by spaces
+                row.push_back(zapperCode);
+            zapperData.push_back(row);
         }
-        if (tileData.size() > 0)
-            this->init(tileData, levelWidth, levelHeight);
     }
+
+
+    std::ifstream fstream_2(coinFile);
+    std::vector <std::vector<float>> coinData;
+    if (fstream_2) {
+        while (std::getline(fstream_2, line)) // read each line from level file
+        {
+            std::istringstream sstream(line);
+            std::vector<float> row;
+            while (sstream >> coinCode) // read each word separated by spaces
+                row.push_back(coinCode);
+            coinData.push_back(row);
+        }
+        if (zapperData.size() > 0)
+            this->init(zapperData, coinData, levelWidth, levelHeight);
+    }
+
 }
 
-void GameLevel::Draw(SpriteRenderer &renderer, float worldDistance)
-{
-    float newWorldDistance = worldDistance;
-    for (GameObject &zapper : this->Bricks) {
+void GameLevel::Draw(SpriteRenderer &renderer, float worldDistance) {
+    for (GameObject &zapper: this->Zappers) {
         zapper.Position.x -= 5;
+        if (zapper.DoRotate) {
+            zapper.Rotation += 0.5f;
+        }
         zapper.Draw(renderer);
-        zapper.Rotation += 0.5f;
     }
-
-
-
-
+    for (GameObject &coin: this->Coins) {
+        coin.Position.x -= 5;
+        coin.Draw(renderer);
+    }
 }
 
-bool GameLevel::IsCompleted()
-{
-    for (GameObject &tile : this->Bricks)
+bool GameLevel::IsCompleted() {
+    for (GameObject &tile: this->Zappers)
         if (!tile.IsSolid && !tile.Destroyed)
             return false;
     return true;
 
 }
 
-void GameLevel::init(std::vector<std::vector<unsigned int>> tileData, unsigned int levelWidth, unsigned int levelHeight)
-{
-    // calculate dimensions
-//    unsigned int height = tileData.size();
-//    unsigned int width = tileData[0].size(); // note we can index vector at [0] since this function is only called if height > 0
-//    float unit_width = levelWidth / static_cast<float>(width), unit_height = levelHeight / height;
-//    // initialize level tiles based on tileData
-//    for (unsigned int y = 0; y < height; ++y)
-//    {
-//        for (unsigned int x = 0; x < width; ++x)
-//        {
-//            // check block type from level data (2D level array)
-//            if (tileData[y][x] == 1) // solid
-//            {
-//                glm::vec2 pos(unit_width * x, unit_height * y);
-//
-//                glm::vec2 size(unit_width, unit_height);
-//                GameObject obj(pos, size, ResourceManager::GetTexture("zapper"), glm::vec3(0.8f, 0.8f, 0.7f));
-//                obj.IsSolid = true;
-////                this->Bricks.push_back(obj);
-//            }
-//            else if (tileData[y][x] > 1)	// non-solid; now determine its color based on level data
-//            {
-//                glm::vec3 color = glm::vec3(1.0f); // original: white
-//                if (tileData[y][x] == 2)
-//                    color = glm::vec3(0.2f, 0.6f, 1.0f);
-//                else if (tileData[y][x] == 3)
-//                    color = glm::vec3(0.0f, 0.7f, 0.0f);
-//                else if (tileData[y][x] == 4)
-//                    color = glm::vec3(0.8f, 0.8f, 0.4f);
-//                else if (tileData[y][x] == 5)
-//                    color = glm::vec3(1.0f, 0.5f, 0.0f);
-//
-//                glm::vec2 pos(unit_width * x, unit_height * y);
-//                glm::vec2 size(unit_width, unit_height);
-////                this->Bricks.push_back(GameObject(pos, size, ResourceManager::GetTexture("zapper"), color));
+void GameLevel::init(std::vector <std::vector<float>> zapperData, std::vector <std::vector<float>> coinData,
+                     unsigned int levelWidth, unsigned int levelHeight) {
 
-//            }
+    for (int i = 0; i < zapperData.size(); i++) {
 
-            for(int i = 0; i < 100; i++) {
-                float ySize = 100.0f;
-                this->Bricks.push_back(
-                        GameObject(glm::vec2((levelWidth / 10) * i, (levelHeight * 2 - ySize)), glm::vec2(20, ySize),
-                                   ResourceManager::GetTexture("zapper"), glm::vec3(1.0f, 1.0f, 1.0f), 0));
-            }
-        //}
-    //}
+        float xPos = zapperData[i][0];
+        float yPos = zapperData[i][1];
+        float oscillate_bool = zapperData[i][2];
+        float rotate_bool = zapperData[i][3];
+        float y_size = zapperData[i][4];
+
+        this->Zappers.push_back(
+                GameObject(glm::vec2(xPos, (levelHeight * yPos - y_size)), glm::vec2(20, y_size),
+                           ResourceManager::GetTexture("zapper"), glm::vec3(1.0f, 1.0f, 1.0f), 0, rotate_bool,
+                           oscillate_bool, 0.0f));
+    }
+
+    for (int i = 0; i < coinData.size(); i++) {
+
+        float xPos = coinData[i][0];
+        float yPos = coinData[i][1];
+
+
+        this->Coins.push_back(
+                GameObject(glm::vec2(xPos, (levelHeight * yPos - 20)), glm::vec2(20, 20),
+                           ResourceManager::GetTexture("awesomeface"), glm::vec3(1.0f, 1.0f, 1.0f), 0, true,
+                           false, 0.0f));
+    }
+
 }
 
 
-// we will need size of the zapper from 0 to 0.5, and multiply that by the level height and level width, and then render it only when the time comes
+
