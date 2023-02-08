@@ -104,8 +104,10 @@ void Game::ProcessInput(float dt) {
         this->State = GAME_INTRO;
     }
     if(this->State == GAME_INTRO){
-        if (this->Keys[GLFW_KEY_SPACE])
+        if (this->Keys[GLFW_KEY_SPACE]) {
+            progress = 0.0f;
             this->State = GAME_ACTIVE;
+        }
     }
 
     if (this->State == GAME_ACTIVE) {
